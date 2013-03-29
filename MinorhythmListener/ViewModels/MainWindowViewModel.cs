@@ -331,7 +331,7 @@ namespace MinorhythmListener.ViewModels
         public void PlayRadio()
         {
             player.Close();
-            if (PlayerState == State.再生中)
+            if (PlayerState != State.停止中)
             {
                 player.Open(SelectedContent.Address);
             }
