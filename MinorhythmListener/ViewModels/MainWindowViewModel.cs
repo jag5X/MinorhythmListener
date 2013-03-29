@@ -113,6 +113,24 @@ namespace MinorhythmListener.ViewModels
         }
         #endregion
 
+        #region IsShowCornersIntroduction変更通知プロパティ
+        private bool _IsShowCornersIntroduction;
+
+        public bool IsShowCornersIntroduction
+        {
+            get
+            { return _IsShowCornersIntroduction; }
+            set
+            { 
+                if (_IsShowCornersIntroduction == value)
+                    return;
+                _IsShowCornersIntroduction = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged("CornersIntroduction");
+            }
+        }
+        #endregion
+
         #region SeakPosition 変更通知プロパティ
         public double SeakPosition
         {
@@ -162,6 +180,15 @@ namespace MinorhythmListener.ViewModels
             }
         }
 
+        public IReadOnlyDictionary<string, string> CornersIntroduction
+        {
+            get
+            {
+                if (IsShowCornersIntroduction) return radio.Corners;
+                else return null;
+            }
+        }
+
         #endregion
 
         public async void Initialize()
@@ -202,6 +229,11 @@ namespace MinorhythmListener.ViewModels
         {
             if (PlayerState == State.再生中) Pause();
             else Play();
+        }
+
+        public void ToggleCorners()
+        {
+            IsShowCornersIntroduction = !IsShowCornersIntroduction;
         }
 
         public void StartSeak()
