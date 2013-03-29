@@ -16,6 +16,7 @@ using Livet.Messaging.Windows;
 
 using MinorhythmListener.Models;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace MinorhythmListener.ViewModels
 {
