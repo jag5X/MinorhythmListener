@@ -33,6 +33,14 @@
         <i:EventTrigger EventName="Closed">
             <l:DataContextDisposeAction/>
         </i:EventTrigger>
+        
+        <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="NetworkError">
+            <l:InformationDialogInteractionMessageAction />
+        </l:InteractionMessageTrigger>
+
+        <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="LoadError">
+            <l:InformationDialogInteractionMessageAction />
+        </l:InteractionMessageTrigger>
 
     </i:Interaction.Triggers>
     

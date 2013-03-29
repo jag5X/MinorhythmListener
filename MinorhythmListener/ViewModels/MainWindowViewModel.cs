@@ -15,6 +15,7 @@ using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
 using MinorhythmListener.Models;
+using System.Windows;
 
 namespace MinorhythmListener.ViewModels
 {
@@ -224,7 +225,28 @@ namespace MinorhythmListener.ViewModels
 
         public async void Initialize()
         {
-            radio = await Minorhythm.Load();
+            try
+            {
+                radio = await Minorhythm.Load();
+            }
+            catch (TypeInitializationException)
+            {
+                Messenger.Raise(new InformationMessage
+                    ("radio minorhythm から情報を読み込めませんでした。",
+                    "エラー",
+                    MessageBoxImage.Error,
+                    "LoadError"));
+                return;
+            }
+            if (radio == null)
+            {
+                await Messenger.RaiseAsync(new InformationMessage
+                    ("ネットワーク接続が無効です。",
+                    "エラー",
+                    MessageBoxImage.Error,
+                    "NetoworkError"));
+                return;
+            }
             RaisePropertyChanged("Radio");
             player = new MediaPlayer();
             player.BufferingStarted += (s, e) => PlayerState = State.バッファ中;
