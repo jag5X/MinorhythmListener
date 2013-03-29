@@ -16,6 +16,7 @@ using Livet.Messaging.Windows;
 
 using MinorhythmListener.Models;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace MinorhythmListener.ViewModels
 {
@@ -25,6 +26,7 @@ namespace MinorhythmListener.ViewModels
         private MediaPlayer player;
         private DispatcherTimer seakTimer;
         private bool isPlayingSeak;
+        private string playImageAddress, pauseImageAddress;
 
         public enum State
         {
@@ -91,7 +93,7 @@ namespace MinorhythmListener.ViewModels
                     return;
                 _PlayerState = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("MediaOperationString");
+                RaisePropertyChanged("MediaButtonImageAddress");
             }
         }
         #endregion
@@ -133,7 +135,6 @@ namespace MinorhythmListener.ViewModels
         }
         #endregion
 
-
         #region IsShowThemeSongIntroduction変更通知プロパティ
         private bool _IsShowThemeSongIntroduction;
 
@@ -152,7 +153,6 @@ namespace MinorhythmListener.ViewModels
             }
         }
         #endregion
-
 
         #region SeakPosition 変更通知プロパティ
         public double SeakPosition
@@ -195,11 +195,11 @@ namespace MinorhythmListener.ViewModels
             }
         }
 
-        public string MediaOperationString
+        public string MediaButtonImageAddress
         {
             get
             {
-                return PlayerState == State.再生中 ? "一時停止" : "再生";
+                return PlayerState == State.再生中 ? pauseImageAddress : playImageAddress;
             }
         }
 
@@ -260,6 +260,8 @@ namespace MinorhythmListener.ViewModels
                 player.Close();
                 PlayerState = State.停止中;
             };
+            playImageAddress = "../Resources/Play.png";
+            pauseImageAddress = "../Resources/Pause.png";
             SelectedContent = radio.Contents.First();
             seakTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(100),
                                             DispatcherPriority.DataBind,
