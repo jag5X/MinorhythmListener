@@ -121,20 +121,8 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
-            <Button Grid.Column="1" Content="コーナー紹介" Style="{StaticResource MenuButtonStyleKey}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="ToggleCorners" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button Grid.Column="1" Content="テーマソング紹介" Style="{StaticResource MenuButtonStyleKey}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="ToggleThemeSong" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
+            <Button Grid.Column="1" Content="コーナー紹介" Command="{Binding ToggleCornersCommand}" Style="{StaticResource MenuButtonStyleKey}" />
+            <Button Grid.Column="1" Content="テーマソング紹介" Command="{Binding ToggleThemeSongCommand}" Style="{StaticResource MenuButtonStyleKey}" />
         </StackPanel>
         <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" >
             <ItemsControl ItemsSource="{Binding CornersIntroduction}">

@@ -248,6 +248,9 @@ namespace MinorhythmListener.ViewModels
                 return;
             }
             RaisePropertyChanged("Radio");
+            ToggleCornersCommand.RaiseCanExecuteChanged();
+            ToggleThemeSongCommand.RaiseCanExecuteChanged();
+
             player = new MediaPlayer();
             player.BufferingStarted += (s, e) => PlayerState = State.バッファ中;
             player.BufferingEnded += (s, e) => PlayerState = State.再生中;
@@ -282,16 +285,6 @@ namespace MinorhythmListener.ViewModels
         {
             if (PlayerState == State.再生中) Pause();
             else Play();
-        }
-
-        public void ToggleCorners()
-        {
-            IsShowCornersIntroduction = !IsShowCornersIntroduction;
-        }
-
-        public void ToggleThemeSong()
-        {
-            IsShowThemeSongIntroduction = !IsShowThemeSongIntroduction;
         }
 
         public void StartSeak()
@@ -338,6 +331,58 @@ namespace MinorhythmListener.ViewModels
             player.Close();
             PlayingContent = SelectedContent;
             Play();
+        }
+        #endregion
+
+        #region ToggleCornersCommand
+        private ViewModelCommand _ToggleCornersCommand;
+
+        public ViewModelCommand ToggleCornersCommand
+        {
+            get
+            {
+                if (_ToggleCornersCommand == null)
+                {
+                    _ToggleCornersCommand = new ViewModelCommand(ToggleCorners, CanToggleCorners);
+                }
+                return _ToggleCornersCommand;
+            }
+        }
+
+        public bool CanToggleCorners()
+        {
+            return radio != null;
+        }
+
+        public void ToggleCorners()
+        {
+            IsShowCornersIntroduction = !IsShowCornersIntroduction;
+        }
+        #endregion
+
+        #region ToggleThemeSongCommand
+        private ViewModelCommand _ToggleThemeSongCommand;
+
+        public ViewModelCommand ToggleThemeSongCommand
+        {
+            get
+            {
+                if (_ToggleThemeSongCommand == null)
+                {
+                    _ToggleThemeSongCommand = new ViewModelCommand(ToggleThemeSong, CanToggleThemeSong);
+                }
+                return _ToggleThemeSongCommand;
+            }
+        }
+
+        public bool CanToggleThemeSong()
+        {
+            return radio != null;
+        }
+
+        public void ToggleThemeSong()
+        {
+            IsShowThemeSongIntroduction = !IsShowThemeSongIntroduction;
         }
         #endregion
     }
