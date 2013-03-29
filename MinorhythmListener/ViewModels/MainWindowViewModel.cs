@@ -125,11 +125,33 @@ namespace MinorhythmListener.ViewModels
                 if (_IsShowCornersIntroduction == value)
                     return;
                 _IsShowCornersIntroduction = value;
+                if (value) IsShowThemeSongIntroduction = false;
                 RaisePropertyChanged();
                 RaisePropertyChanged("CornersIntroduction");
             }
         }
         #endregion
+
+
+        #region IsShowThemeSongIntroduction変更通知プロパティ
+        private bool _IsShowThemeSongIntroduction;
+
+        public bool IsShowThemeSongIntroduction
+        {
+            get
+            { return _IsShowThemeSongIntroduction; }
+            set
+            { 
+                if (_IsShowThemeSongIntroduction == value)
+                    return;
+                _IsShowThemeSongIntroduction = value;
+                if (value) IsShowCornersIntroduction = false;
+                RaisePropertyChanged();
+                RaisePropertyChanged("ThemeSongIntroduction");
+            }
+        }
+        #endregion
+
 
         #region SeakPosition 変更通知プロパティ
         public double SeakPosition
@@ -189,6 +211,15 @@ namespace MinorhythmListener.ViewModels
             }
         }
 
+        public IEnumerable<ThemeSong> ThemeSongIntroduction
+        {
+            get
+            {
+                if (IsShowThemeSongIntroduction) return new ThemeSong[] { radio.Opening, radio.Ending };
+                else return null;
+            }
+        }
+
         #endregion
 
         public async void Initialize()
@@ -234,6 +265,11 @@ namespace MinorhythmListener.ViewModels
         public void ToggleCorners()
         {
             IsShowCornersIntroduction = !IsShowCornersIntroduction;
+        }
+
+        public void ToggleThemeSong()
+        {
+            IsShowThemeSongIntroduction = !IsShowThemeSongIntroduction;
         }
 
         public void StartSeak()
