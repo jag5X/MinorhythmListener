@@ -125,6 +125,16 @@
             <Button Grid.Column="1" Content="テーマソング紹介" Command="{Binding ToggleThemeSongCommand}" Style="{StaticResource MenuButtonStyleKey}" />
         </StackPanel>
         <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" >
+            <ScrollViewer.Visibility>
+                <Binding Path="IsShowCornersIntroduction">
+                    <Binding.Converter>
+                        <l:VisibilityAndBooleanConverter
+                                ConvertWhenTrue="Visible"
+                                ConvertWhenFalse="Hidden"
+                                />
+                    </Binding.Converter>
+                </Binding>
+            </ScrollViewer.Visibility>
             <ItemsControl ItemsSource="{Binding CornersIntroduction}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -142,6 +152,16 @@
             </ItemsControl>
         </ScrollViewer>
         <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" >
+            <ScrollViewer.Visibility>
+                <Binding Path="IsShowThemeSongIntroduction">
+                    <Binding.Converter>
+                        <l:VisibilityAndBooleanConverter
+                                ConvertWhenTrue="Visible"
+                                ConvertWhenFalse="Hidden"
+                                />
+                    </Binding.Converter>
+                </Binding>
+            </ScrollViewer.Visibility>
             <ItemsControl ItemsSource="{Binding ThemeSongIntroduction}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
