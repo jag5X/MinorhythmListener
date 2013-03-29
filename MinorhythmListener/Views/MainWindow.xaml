@@ -65,8 +65,8 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </v:SeakBar>
-            <StackPanel Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="10">
-                <StackPanel.Visibility>
+            <Grid Grid.Row="4" Margin="5">
+                <Grid.Visibility>
                     <Binding Path="IsInitializedRadio">
                         <Binding.Converter>
                             <l:VisibilityAndBooleanConverter
@@ -75,19 +75,29 @@
                                 />
                         </Binding.Converter>
                     </Binding>
-                </StackPanel.Visibility>
-                <Button Style="{StaticResource MediaButtonStyleKey}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="PlayOrPause" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <Image Source="{Binding MediaButtonImageAddress}" />
-                </Button>
-                <Label Content="{Binding PlayingTime}" Margin="10,0,0,0"/>
-                <Label Content="/" />
-                <Label Content="{Binding TotalTime}" />
-            </StackPanel>
+                </Grid.Visibility>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Style="{StaticResource MediaButtonStyleKey}" Margin="10,0,10,0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="PlayOrPause" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Image Source="{Binding MediaButtonImageAddress}" />
+                    </Button>
+                    <Label Content="{Binding PlayingTime}" VerticalAlignment="Center" />
+                    <Label Content="/" VerticalAlignment="Center" />
+                    <Label Content="{Binding TotalTime}" VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5">
+                    <Slider Value="{Binding Volume}" SmallChange="1" Minimum="0" Maximum="100" Width="100" VerticalAlignment="Center" />
+                    <Label Content="{Binding Volume}" ContentStringFormat="0" />
+                </StackPanel>
+            </Grid>
             <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5">
                 <Label Content="{Binding PlayerState}" />
                 <Label Content="{Binding PlayingContent}" />

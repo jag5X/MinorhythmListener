@@ -16,7 +16,6 @@ using Livet.Messaging.Windows;
 
 using MinorhythmListener.Models;
 using System.Windows;
-using System.Windows.Media.Imaging;
 
 namespace MinorhythmListener.ViewModels
 {
@@ -98,6 +97,19 @@ namespace MinorhythmListener.ViewModels
         }
         #endregion
 
+        #region Volume変更通知プロパティ
+        public double Volume
+        {
+            get
+            { return player.Volume * 100; }
+            set
+            {
+                player.Volume = value / 100;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
         #region IsInitializedRadio変更通知プロパティ
         private bool _IsInitializedRadio;
 
@@ -112,6 +124,7 @@ namespace MinorhythmListener.ViewModels
                 RaisePropertyChanged();
                 RaisePropertyChanged("SeakMaximum");
                 RaisePropertyChanged("TotalTime");
+                RaisePropertyChanged("Volume");
             }
         }
         #endregion
@@ -330,6 +343,7 @@ namespace MinorhythmListener.ViewModels
 
         public void PlayRadio()
         {
+            var v = Volume;
             player.Close();
             if (PlayerState != State.停止中)
             {
@@ -337,6 +351,7 @@ namespace MinorhythmListener.ViewModels
             }
             PlayingContent = SelectedContent;
             Play();
+            Volume = v;
         }
         #endregion
 
