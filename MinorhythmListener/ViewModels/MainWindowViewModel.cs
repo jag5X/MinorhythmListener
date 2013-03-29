@@ -32,6 +32,14 @@ namespace MinorhythmListener.ViewModels
 
         #region Property
 
+        public Minorhythm Radio
+        {
+            get
+            {
+                return radio;
+            }
+        }
+
         #region PlayingContent変更通知プロパティ
         private Content _PlayingContent;
 
@@ -82,6 +90,7 @@ namespace MinorhythmListener.ViewModels
                     return;
                 _PlayerState = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged("MediaOperationString");
             }
         }
         #endregion
@@ -104,14 +113,7 @@ namespace MinorhythmListener.ViewModels
         }
         #endregion
 
-        public Minorhythm Radio
-        {
-            get
-            {
-                return radio;
-            }
-        }
-
+        #region SeakPosition 変更通知プロパティ
         public double SeakPosition
         {
             get
@@ -126,6 +128,7 @@ namespace MinorhythmListener.ViewModels
                 RaisePropertyChanged();
             }
         }
+        #endregion
 
         public double SeakMaximum
         {
@@ -151,6 +154,14 @@ namespace MinorhythmListener.ViewModels
             }
         }
 
+        public string MediaOperationString
+        {
+            get
+            {
+                return PlayerState == State.再生中 ? "一時停止" : "再生";
+            }
+        }
+
         #endregion
 
         public async void Initialize()
@@ -161,7 +172,11 @@ namespace MinorhythmListener.ViewModels
             player.BufferingStarted += (s, e) => PlayerState = State.バッファ中;
             player.BufferingEnded += (s, e) => PlayerState = State.再生中;
             player.MediaOpened += (s, e) => IsInitializedRadio = true;
-            player.MediaEnded += (s, e) => PlayerState = State.停止中;
+            player.MediaEnded += (s, e) =>
+            {
+                player.Close();
+                PlayerState = State.停止中;
+            };
             SelectedContent = radio.Contents.First();
             seakTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(100),
                                             DispatcherPriority.DataBind,
@@ -170,9 +185,23 @@ namespace MinorhythmListener.ViewModels
             seakTimer.Start();
         }
 
-        public void SelectContent(Content content)
+        public void Play()
         {
-            SelectedContent = content;
+            if (PlayerState == State.停止中) player.Open(PlayingContent.Address);
+            player.Play();
+            PlayerState = State.再生中;
+        }
+
+        public void Pause()
+        {
+            player.Pause();
+            PlayerState = State.一時停止中;
+        }
+
+        public void PlayOrPause()
+        {
+            if (PlayerState == State.再生中) Pause();
+            else Play();
         }
 
         public void StartSeak()
@@ -187,6 +216,11 @@ namespace MinorhythmListener.ViewModels
             {
                 player.Play();
             }
+        }
+
+        public void SelectContent(Content content)
+        {
+            SelectedContent = content;
         }
 
         #region PlayRadioCommand
@@ -212,10 +246,8 @@ namespace MinorhythmListener.ViewModels
         public void PlayRadio()
         {
             player.Close();
-            player.Open(SelectedContent.Address);
-            player.Play();
             PlayingContent = SelectedContent;
-            PlayerState = State.再生中;
+            Play();
         }
         #endregion
     }

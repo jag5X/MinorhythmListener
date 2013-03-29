@@ -55,7 +55,13 @@
             <Button Grid.Row="2" Content="この回を聴く" Height="50" Margin="10,10,10,5" Command="{Binding PlayRadioCommand}" />
             <StackPanel Grid.Row="3" Margin="5" Orientation="Horizontal" IsEnabled="{Binding IsInitializedRadio}">
                 <Button Content="巻き戻し" Width="80" Margin="5" />
-                <Button Content="再生" Width="80" Margin="5" />
+                <Button Content="{Binding MediaOperationString}" Width="80" Margin="5">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="PlayOrPause" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
                 <Button Content="早送り" Width="80" Margin="5" />
             </StackPanel>
             <v:SeakBar Grid.Row="4" Value="{Binding SeakPosition}" Maximum="{Binding SeakMaximum}" 
