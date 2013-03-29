@@ -54,7 +54,6 @@
             <TextBox Grid.Row="1" Text="{Binding SelectedContent.Description, Mode=OneWay}" Margin="10,0,10,0" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
             <Button Grid.Row="2" Content="この回を聴く" Height="50" Margin="10,10,10,5" Command="{Binding PlayRadioCommand}" />
             <StackPanel Grid.Row="3" Margin="5" Orientation="Horizontal" IsEnabled="{Binding IsInitializedRadio}">
-                <Button Content="巻き戻し" Width="80" Margin="5" />
                 <Button Content="{Binding MediaOperationString}" Width="80" Margin="5">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -62,7 +61,6 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="早送り" Width="80" Margin="5" />
             </StackPanel>
             <v:SeakBar Grid.Row="4" Value="{Binding SeakPosition}" Maximum="{Binding SeakMaximum}" 
                        IsEnabled="{Binding IsInitializedRadio}" Margin="10">
