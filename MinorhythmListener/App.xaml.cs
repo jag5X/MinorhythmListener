@@ -17,7 +17,7 @@ namespace MinorhythmListener
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             DispatcherHelper.UIDispatcher = Dispatcher;
-            //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
         }
 
         //集約エラーハンドラ
